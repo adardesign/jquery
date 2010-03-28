@@ -260,6 +260,9 @@ jQuery.extend({
 
 		// Only do all the following if this is a node (faster for style)
 		if ( elem.nodeType === 1 ) {
+			if( set && !jQuery.event.trigger( "attr:" + name, value, elem ) ) {
+				return value;
+			}
 			// These attributes require special treatment
 			var special = rspecialurl.test( name );
 

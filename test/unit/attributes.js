@@ -714,3 +714,35 @@ test("addClass, removeClass, hasClass", function() {
 	jq.removeClass("cla.ss3");
 	ok( jq.hasClass("cla.ss3")==false, "Check the dotted class has been removed" );
 });
+
+test("attr(...) with events", function() {
+		expect(7);
+
+		var handler1_run = false;
+		var handler2_run = false;
+		var handler3_run = false;
+
+		var handler1 = function(event, value) {
+			handler1_run = true;
+			ok( value, "bind(attr:foo), make sure value exists" );
+			equals( value, "bar", "bind(attr:foo, make sure value is corrent)" );
+		};
+		var handler2 = function(event, value) {
+			handler2_run = true;
+			ok( typeof value !== undefined, "bind(attr:foo), make sure value exists" );
+			equals( value, false, "bind(attr:foo, make sure value is corrent)" );
+		};
+
+		var handler3 = function(event, value) {
+			handler3_run = true;
+		};
+		jQuery("#firstp").bind("attr:foo", {}, handler1).attr({foo: "bar"}).unbind("attr:foo", handler1);
+		ok( handler1_run, "bind(attr:foo), set attr:foo was run" );
+
+		jQuery("#firstp").bind("attr:foo", {}, handler2).removeAttr("foo").unbind("attr:foo", handler2);
+		ok( handler2_run, "bind(attr:foo), remove attr:foo was run" );
+
+		jQuery("#firstp").bind("attr:foo", {}, handler3).attr({bar: "baz"}).unbind("attr:foo", handler3);
+		ok( !handler3_run, "bind(attr:foo), attr:foo wasn't fired on setting attr:bar" );
+
+	});
