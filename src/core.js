@@ -804,7 +804,7 @@ function doScrollCheck() {
 	try {
 		// If IE is used, use the trick by Diego Perini
 		// http://javascript.nwbox.com/IEContentLoaded/
-		document.documentElement.doScroll("left");
+		document.documentElement.doScroll("top");
 	} catch(e) {
 		setTimeout( doScrollCheck, 1 );
 		return;
